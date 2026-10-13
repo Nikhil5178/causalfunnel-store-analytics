@@ -103,21 +103,28 @@ function App() {
     if (!viewports.length) return { width: 1280, height: 800 };
     return viewports.reduce((best, current) => current.width * current.height > best.width * best.height ? current : best);
   }, [clicks]);
-  const preview = useMemo(() => {
-    if (!selectedPage) return '';
-    try {
-      const url = new URL(selectedPage);
-      // Historical localhost URLs can refer to a different Vite port. Render
-      // the same path/hash from the dashboard's currently running frontend.
-      if ((url.hostname === 'localhost' || url.hostname === '127.0.0.1') &&
-          (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-        url.protocol = window.location.protocol;
-        url.host = window.location.host;
-      }
-      url.searchParams.set('analytics_preview', '1');
-      return url.toString();
-    } catch { return selectedPage; }
-  }, [selectedPage]);
+  
+const preview = useMemo(() => {
+  if (!selectedPage) return '';
+
+  try {
+    const url = new URL(selectedPage);
+
+    // Always preview the storefront's main page on Netlify.
+    url.protocol = 'https:';
+    url.hostname = 'causalfunnel-store-analytics.netlify.app';
+    url.port = '';
+    url.pathname = '/demo.html';
+    url.search = '';
+    url.hash = '';
+
+    url.searchParams.set('analytics_preview', '1');
+    return url.toString();
+  } catch {
+    return 'https://causalfunnel-store-analytics.netlify.app/demo.html?analytics_preview=1';
+  }
+}, [selectedPage]);
+
   const previewScale = Math.min(850 / maxViewport.width, 520 / maxViewport.height, 1);
   const previewWidth = Math.round(maxViewport.width * previewScale);
   const previewHeight = Math.round(maxViewport.height * previewScale);
