@@ -116,7 +116,7 @@ const preview = useMemo(() => {
     url.port = '';
     url.pathname = '/demo.html';
     url.search = '';
-    
+    url.searchParams.set('analytics_preview', '1');
 
     url.searchParams.set('analytics_preview', '1');
     return url.toString();
