@@ -211,7 +211,7 @@ const preview = useMemo(() => {
   title="Selected page preview"
   tabIndex={-1}
   aria-hidden="true"
-  sandbox="allow-scripts allow-same-origin"
+  sandbox="allow-scripts"
   style={{
     width: `${maxViewport.width}px`,
     height: `${maxViewport.height}px`,
