@@ -51,7 +51,9 @@ document.getElementById('checkout-button').addEventListener('click',()=>{
  if(!cart.length){toast('Your bag is empty');return;}
  localStorage.setItem('forme_cart',JSON.stringify(cart));
  if(window.trackAnalyticsEvent) window.trackAnalyticsEvent('checkout_start',{items:cart.reduce((n,p)=>n+p.qty,0),subtotal:cart.reduce((n,p)=>n+p.price*p.qty,0)});
- window.location.href='/checkout.html';
+if (!new URLSearchParams(window.location.search).has('analytics_preview')) {
+  window.location.href = '/checkout.html';
+}
 });
 document.getElementById('newsletter-form').addEventListener('submit',e=>{e.preventDefault();if(window.trackAnalyticsEvent)window.trackAnalyticsEvent('newsletter_signup',{});toast('Thanks for joining our notes.');e.target.reset()});document.getElementById('year').textContent=new Date().getFullYear();renderProducts();updateCart();
 </script>
