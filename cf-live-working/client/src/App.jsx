@@ -202,6 +202,7 @@ const preview = useMemo(() => {
           {!selectedPage ? <Empty title="Select a page" text="Choose a tracked URL to view click positions."/> : clicks.length === 0 ? <Empty title="No click data yet" text="Open the demo page and click a few places, then refresh."/> :
           <div className="viewport-canvas" style={{width: `${previewWidth}px`, height: `${previewHeight}px`}}>
 
+
 <iframe
   key={preview}
   className="heatmap-page-preview"
@@ -209,6 +210,17 @@ const preview = useMemo(() => {
   title="Selected page preview"
   tabIndex={-1}
   aria-hidden="true"
+  sandbox="allow-scripts allow-same-origin"
+  onLoad={(e) => {
+    try {
+      const frame = e.currentTarget;
+      frame.contentWindow.addEventListener('beforeunload', (event) => {
+        event.preventDefault();
+      });
+    } catch {
+      // Cross-origin restrictions are expected.
+    }
+  }}
   style={{
     width: `${maxViewport.width}px`,
     height: `${maxViewport.height}px`,
