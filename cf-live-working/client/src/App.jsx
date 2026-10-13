@@ -186,12 +186,13 @@ function App() {
         <div className="heatmap-stage">
           {!selectedPage ? <Empty title="Select a page" text="Choose a tracked URL to view click positions."/> : clicks.length === 0 ? <Empty title="No click data yet" text="Open the demo page and click a few places, then refresh."/> :
           <div className="viewport-canvas" style={{width: `${previewWidth}px`, height: `${previewHeight}px`}}>
-          <iframe
+<iframe
   className="heatmap-page-preview"
   src={preview}
   title="Selected page preview"
   tabIndex="-1"
   aria-hidden="true"
+  sandbox="allow-same-origin"
   style={{
     width: `${maxViewport.width}px`,
     height: `${maxViewport.height}px`,
