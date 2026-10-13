@@ -110,20 +110,28 @@ const preview = useMemo(() => {
   try {
     const url = new URL(selectedPage);
 
-    // Always preview the storefront's main page on Netlify.
-    url.protocol = 'https:';
-    url.hostname = 'causalfunnel-store-analytics.netlify.app';
-    url.port = '';
-    url.pathname = '/demo.html';
-    url.search = '';
+    // Keep the actual selected page and section.
+    // Only rewrite old localhost URLs for the deployed storefront.
+    if (
+      url.hostname === 'localhost' ||
+      url.hostname === '127.0.0.1'
+    ) {
+      url.protocol = 'https:';
+      url.host = 'causalfunnel-store-analytics.netlify.app';
+    }
+
+    // The tracker already ignores preview-mode events.
     url.searchParams.set('analytics_preview', '1');
 
-    url.searchParams.set('analytics_preview', '1');
     return url.toString();
   } catch {
-    return 'https://causalfunnel-store-analytics.netlify.app/demo.html?analytics_preview=1';
+    return '';
   }
 }, [selectedPage]);
+
+
+
+
 
   const previewScale = Math.min(850 / maxViewport.width, 520 / maxViewport.height, 1);
   const previewWidth = Math.round(maxViewport.width * previewScale);
@@ -193,19 +201,24 @@ const preview = useMemo(() => {
         <div className="heatmap-stage">
           {!selectedPage ? <Empty title="Select a page" text="Choose a tracked URL to view click positions."/> : clicks.length === 0 ? <Empty title="No click data yet" text="Open the demo page and click a few places, then refresh."/> :
           <div className="viewport-canvas" style={{width: `${previewWidth}px`, height: `${previewHeight}px`}}>
+
 <iframe
+  key={preview}
   className="heatmap-page-preview"
   src={preview}
   title="Selected page preview"
-  tabIndex="-1"
+  tabIndex={-1}
   aria-hidden="true"
-  sandbox="allow-same-origin"
   style={{
     width: `${maxViewport.width}px`,
     height: `${maxViewport.height}px`,
-    transform: `scale(${previewScale})`
+    transform: `scale(${previewScale})`,
+    transformOrigin: 'top left',
+    border: 0,
+    pointerEvents: 'none'
   }}
 />
+
             <div className="heatmap-preview-tint"/>
             <div className="canvas-label">CLICK DISTRIBUTION · {maxViewport.width} × {maxViewport.height} REFERENCE VIEWPORT</div>
             {clicks.map((c, i) => {
