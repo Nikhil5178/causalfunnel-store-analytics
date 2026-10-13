@@ -104,31 +104,28 @@ function App() {
     return viewports.reduce((best, current) => current.width * current.height > best.width * best.height ? current : best);
   }, [clicks]);
   
+
+  ```jsx
 const preview = useMemo(() => {
   if (!selectedPage) return '';
 
   try {
     const url = new URL(selectedPage);
 
-    // Keep the actual selected page and section.
-    // Only rewrite old localhost URLs for the deployed storefront.
-    if (
-      url.hostname === 'localhost' ||
-      url.hostname === '127.0.0.1'
-    ) {
-      url.protocol = 'https:';
-      url.host = 'causalfunnel-store-analytics.netlify.app';
-    }
+    // Always use the deployed storefront origin.
+    url.protocol = 'https:';
+    url.host = 'causalfunnel-store-analytics.netlify.app';
 
-    // The tracker already ignores preview-mode events.
+    // Prevent preview page loads from polluting analytics.
     url.searchParams.set('analytics_preview', '1');
 
     return url.toString();
-  } catch {
+  } catch (error) {
+    console.error('Invalid heatmap preview URL:', selectedPage, error);
     return '';
   }
 }, [selectedPage]);
-
+```
 
 
 
