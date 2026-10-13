@@ -105,27 +105,31 @@ function App() {
   }, [clicks]);
   
 
-  ```jsx
+  
+
+  
 const preview = useMemo(() => {
   if (!selectedPage) return '';
 
   try {
     const url = new URL(selectedPage);
 
-    // Always use the deployed storefront origin.
+    // Use the deployed storefront host.
     url.protocol = 'https:';
-    url.host = 'causalfunnel-store-analytics.netlify.app';
+    url.hostname = 'causalfunnel-store-analytics.netlify.app';
+    url.port = '';
 
-    // Prevent preview page loads from polluting analytics.
+    // Keep the selected page and its hash.
     url.searchParams.set('analytics_preview', '1');
 
     return url.toString();
   } catch (error) {
-    console.error('Invalid heatmap preview URL:', selectedPage, error);
+    console.error('Invalid preview URL:', selectedPage, error);
     return '';
   }
 }, [selectedPage]);
-```
+
+
 
 
 
@@ -200,7 +204,8 @@ const preview = useMemo(() => {
           <div className="viewport-canvas" style={{width: `${previewWidth}px`, height: `${previewHeight}px`}}>
 
 
-```jsx
+
+
 <iframe
   key={preview}
   className="heatmap-page-preview"
@@ -218,7 +223,7 @@ const preview = useMemo(() => {
     pointerEvents: 'none'
   }}
 />
-```
+
 
             <div className="heatmap-preview-tint"/>
             <div className="canvas-label">CLICK DISTRIBUTION · {maxViewport.width} × {maxViewport.height} REFERENCE VIEWPORT</div>
