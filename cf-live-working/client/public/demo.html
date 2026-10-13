@@ -53,5 +53,5 @@ document.getElementById('checkout-button').addEventListener('click',()=>{
 });
 document.getElementById('newsletter-form').addEventListener('submit',e=>{e.preventDefault();if(window.trackAnalyticsEvent)window.trackAnalyticsEvent('newsletter_signup',{});toast('Thanks for joining our notes.');e.target.reset()});document.getElementById('year').textContent=new Date().getFullYear();renderProducts();updateCart();
 </script>
-<script src="http://localhost:5000/tracker.js" defer></script>
+<script src="https://causalfunnel-api-dvi3.onrender.com/tracker.js"></script>
 </body></html>
