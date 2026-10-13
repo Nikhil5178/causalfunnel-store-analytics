@@ -203,6 +203,7 @@ const preview = useMemo(() => {
           <div className="viewport-canvas" style={{width: `${previewWidth}px`, height: `${previewHeight}px`}}>
 
 
+```jsx
 <iframe
   key={preview}
   className="heatmap-page-preview"
@@ -211,16 +212,6 @@ const preview = useMemo(() => {
   tabIndex={-1}
   aria-hidden="true"
   sandbox="allow-scripts allow-same-origin"
-  onLoad={(e) => {
-    try {
-      const frame = e.currentTarget;
-      frame.contentWindow.addEventListener('beforeunload', (event) => {
-        event.preventDefault();
-      });
-    } catch {
-      // Cross-origin restrictions are expected.
-    }
-  }}
   style={{
     width: `${maxViewport.width}px`,
     height: `${maxViewport.height}px`,
@@ -230,6 +221,7 @@ const preview = useMemo(() => {
     pointerEvents: 'none'
   }}
 />
+```
 
             <div className="heatmap-preview-tint"/>
             <div className="canvas-label">CLICK DISTRIBUTION · {maxViewport.width} × {maxViewport.height} REFERENCE VIEWPORT</div>
