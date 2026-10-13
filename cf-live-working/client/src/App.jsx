@@ -58,16 +58,14 @@ function App() {
       if (sessionData.length && newSessionArrived) {
         setSelectedSession(sessionData[0].session_id);
       }
-      if (!selectedPage && pageData.length) setSelectedPage(pageData[0]);
+     setSelectedPage(current =>
+  current && pageData.includes(current)
+    ? current
+    : pageData[0] || ''
+);
       // Refresh heatmap data along with the dashboard metrics so the click
       // count and dots update without requiring the page dropdown to change.
-      const pageForHeatmap = selectedPage || pageData[0] || '';
-      if (pageForHeatmap) {
-        const clickData = await getJson(`/heatmap?url=${encodeURIComponent(pageForHeatmap)}`).catch(() => []);
-        setClicks(clickData);
-      } else {
-        setClicks([]);
-      }
+     
     } catch (e) {
       setError(`${e.message}. Check that the backend and MongoDB are running.`);
     } finally {
