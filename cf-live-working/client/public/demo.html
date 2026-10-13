@@ -23,7 +23,9 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div><div class="cart-overlay" id="cart-overlay"></div><aside class="cart-drawer" id="cart-drawer" aria-label="Shopping bag" aria-hidden="true"><div class="cart-head"><h2>Your bag <span id="cart-heading-count">(0)</span></h2><button class="close-cart" id="close-cart" aria-label="Close shopping bag">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-total"><div class="cart-total-row"><span>Subtotal</span><strong id="cart-subtotal">$0.00</strong></div><small>Shipping calculated at checkout. Secure checkout preview.</small><button class="primary-button" id="checkout-button">Continue to checkout <span>↗</span></button></div></aside>
 <script>
 // Point this to the backend's event endpoint when deploying the demo.
-window.ANALYTICS_API_URL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:5000/api/events' : `${location.protocol}//${location.hostname}:5000/api/events`;
+window.ANALYTICS_API_URL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:5000/api/events'
+  : 'https://causalfunnel-api-dvi3.onrender.com/api/events';
 const products = [
 {id:'p1',name:'Arc Ceramic Vessel',category:'Home',price:38,label:'Bestseller',desc:'Hand-finished stoneware · Chalk',color:'#e7e1d6',image:'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=750&q=85'},
 {id:'p2',name:'Everyday Carry Tote',category:'Carry',price:54,label:'Everyday essential',desc:'Organic cotton canvas · Natural',color:'#c7c1b2',image:'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=750&q=85'},
